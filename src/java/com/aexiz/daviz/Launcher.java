@@ -13,6 +13,7 @@ public final class Launcher {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					System.out.println("TEST");
 					UIManager.put("swing.boldMetal", Boolean.FALSE);
 					MetalLookAndFeel.setCurrentTheme(new DavizTheme());
 					UIManager.setLookAndFeel(new MetalLookAndFeel());
