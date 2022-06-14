@@ -58,7 +58,7 @@ class Controller {
 	NetworkFrame network;
 	TimelineFrame timeline;
 	InfoFrame info;
-	ChoiceFrame choice;
+//	ChoiceFrame choice;
 	
 	DefaultObjectSelectionModel selectionModel;
 	DefaultGraphModel networkModel;
@@ -79,10 +79,10 @@ class Controller {
 		network = new NetworkFrame(owner);
 		timeline = new TimelineFrame(owner);
 		info = new InfoFrame(owner);
-		choice = new ChoiceFrame(owner);
-		timeline.choice = choice;
+	//	choice = new ChoiceFrame(owner);
+//		timeline.choice = choice;
 		timeline.info = info;
-		choice.timeline = timeline;
+//		choice.timeline = timeline;
 		
 		selectionModel = new DefaultObjectSelectionModel();
 		networkModel = new DefaultGraphModel();
@@ -96,8 +96,10 @@ class Controller {
 		timeline.timeline.setModel(timelineModel);
 		timeline.timeline.setSelectionModel(selectionModel);
 		info.table.setModel(infoModel);
+		/*
 		choice.carousel.setModel(choiceModel);
 		choice.carousel.setSelectionModel(listSelectionModel);
+		*/
 		installTimeListener();
 		installSelectionListener();
 		
@@ -107,7 +109,7 @@ class Controller {
 		network.registerActions(this);
 		timeline.registerActions(this);
 		info.registerActions(this);
-		choice.registerActions(this);
+	//	choice.registerActions(this);
 	}
 	
 	void restoreWindows() {
@@ -124,10 +126,12 @@ class Controller {
 		timeline.setSize(600, 300 + spacetop + 100);
 		timeline.setMinimumSize(new Dimension(600, 300 + spacetop + 100));
 		timeline.setVisible(true);
-		choice.setLocation(posleft + 500 + spaceleft + 300 + spaceleft, postop + 300 + spacetop + 100 + spacetop);
+		/*
+		choice.setLocation(posleft + 500 + spaceleft + 300 + spaceleft, postop + 300 + spacetop + 100 + spacetop);	
 		choice.setSize(600, 125);
 		choice.setMinimumSize(new Dimension(600, 125));
 		choice.setVisible(true);
+		*/
 		control.setLocation(posleft + 300 + spaceleft, postop);
 		control.setSize(500, 200);
 		control.setMinimumSize(new Dimension(500, 200));
@@ -147,7 +151,7 @@ class Controller {
 		menu.add(new JMenuItem(getAction("show-simulation")));
 		menu.add(new JMenuItem(getAction("show-network")));
 		menu.add(new JMenuItem(getAction("show-timeline")));
-		menu.add(new JMenuItem(getAction("show-choice")));
+	//	menu.add(new JMenuItem(getAction("show-choice")));
 		menu.addSeparator();
 		menu.add(new JMenuItem(getAction("show-windows")));
 		return menuBar;
@@ -168,8 +172,11 @@ class Controller {
 		info.populateMenuBar(this, menubar);
 		info.setJMenuBar(menubar);
 		menubar = createMenuBar();
+		// Not necessary anymore
+		/*
 		choice.populateMenuBar(this, menubar);
 		choice.setJMenuBar(menubar);
+		*/
 	}
 	
 	void registerGlobalActions() {
@@ -225,6 +232,7 @@ class Controller {
 					timeline.requestFocus();
 			}
 		});
+		/*
 		registerAction("show-choice", new AbstractAction() {
 			private static final long serialVersionUID = 8948578948320158195L;
 			{
@@ -233,6 +241,7 @@ class Controller {
 				putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F12, 0));
 				setEnabled(false);
 			}
+			
 			public void actionPerformed(ActionEvent e) {
 				if (choice.isVisible()) {
 					choice.setVisible(true);
@@ -240,6 +249,7 @@ class Controller {
 						choice.requestFocus();
 				}
 			}
+			
 		});
 		choice.addComponentListener(new ComponentAdapter() {
 			public void componentHidden(ComponentEvent e) {
@@ -249,6 +259,8 @@ class Controller {
 				getAction("show-choice").setEnabled(true);
 			}
 		});
+		
+		*/
 		registerAction("show-windows", new AbstractAction() {
 			private static final long serialVersionUID = -718811887577227221L;
 			{
@@ -278,7 +290,7 @@ class Controller {
 		network.refreshActions(this);
 		timeline.refreshActions(this);
 		info.refreshActions(this);
-		choice.refreshActions(this);
+	//	choice.refreshActions(this);
 	}
 	
 	boolean isSimulationLoaded() {
@@ -290,7 +302,8 @@ class Controller {
 	}
 	
 	void installFocusListeners() {
-		Window[] windows = new Window[]{control, network, timeline, info, choice};
+		Window[] windows = new Window[]{control, network, timeline, info};
+	//	Window[] windows = new Window[]{control, network, timeline, info, choice};
 		class WindowHandler implements WindowListener, WindowFocusListener {
 			public void windowGainedFocus(WindowEvent e) {
 				Window active = e.getWindow();
@@ -545,7 +558,7 @@ class Controller {
 		selectionModel.clearSelection();
 		listSelectionModel.clearSelection();
 		timelineModel.clear();
-		choiceModel.clear();
+	//	choiceModel.clear();
 	}
 	
 	void stop() {

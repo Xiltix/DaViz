@@ -33,7 +33,7 @@ class TimelineFrame extends JDialog {
 
 	private static final long serialVersionUID = -3706031677602330641L;
 	
-	ChoiceFrame choice;
+	//ChoiceFrame choice;
 	InfoFrame info;
 	
 	JCoolBar toolbar;
