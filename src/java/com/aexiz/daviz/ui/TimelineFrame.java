@@ -21,8 +21,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JToggleButton;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import com.aexiz.daviz.images.ImageRoot;
+import com.aexiz.daviz.ui.swing.JCarousel;
 import com.aexiz.daviz.ui.swing.JCoolBar;
 import com.aexiz.daviz.ui.swing.JStatus;
 import com.aexiz.daviz.ui.swing.JTimeline;
@@ -39,6 +42,7 @@ class TimelineFrame extends JDialog {
 	JCoolBar toolbar;
 	JTimeline timeline;
 	JStatus status;
+	JCarousel carousel;
 
 	public TimelineFrame(Window owner) {
 		super(owner, "Timeline");
@@ -78,6 +82,25 @@ class TimelineFrame extends JDialog {
 		contentPane.add(topPane, BorderLayout.PAGE_START);
 		contentPane.add(scrollPane, BorderLayout.CENTER);
 		contentPane.add(bottomPane, BorderLayout.PAGE_END);
+		
+		// From choice
+		carousel = new JCarousel();
+		carousel.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				timeline.requestFocus();
+			}
+		});
+		
+		
+		JScrollPane scrollPane2 = new JScrollPane(carousel);
+		scrollPane2.setBorder(BorderFactory.createEmptyBorder());
+		
+		Container contentPane2 = getContentPane();
+		contentPane2.add(scrollPane, BorderLayout.CENTER);
+		
+		
+		
+		
 	}
 	
 	// Called by Controller to create actions

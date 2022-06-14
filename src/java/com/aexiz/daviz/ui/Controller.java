@@ -96,10 +96,10 @@ class Controller {
 		timeline.timeline.setModel(timelineModel);
 		timeline.timeline.setSelectionModel(selectionModel);
 		info.table.setModel(infoModel);
-		/*
-		choice.carousel.setModel(choiceModel);
-		choice.carousel.setSelectionModel(listSelectionModel);
-		*/
+		// From choice
+		timeline.carousel.setModel(choiceModel);
+		timeline.carousel.setSelectionModel(listSelectionModel);
+		
 		installTimeListener();
 		installSelectionListener();
 		
