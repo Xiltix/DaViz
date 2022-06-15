@@ -33,7 +33,7 @@ import com.aexiz.daviz.ui.swing.JCoolBar;
 import com.aexiz.daviz.ui.swing.JGraph;
 import com.aexiz.daviz.ui.swing.JStatus;
 
-class NetworkFrame extends JDialog {
+class NetworkFrame extends JDialog  {
 
 	private static final long serialVersionUID = -3706031677602330641L;
 	

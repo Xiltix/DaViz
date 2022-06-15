@@ -10,7 +10,7 @@ import frege.prelude.PreludeBase.TTuple2;
 import frege.run8.Lazy;
 import frege.run8.Thunk;
 
-public class Network implements Serializable {
+public class Network{
 	
 	private ArrayList<Viewpoint.Node> processes = new ArrayList<Viewpoint.Node>();
 	private ArrayList<Viewpoint.Channel> channels = new ArrayList<Viewpoint.Channel>();

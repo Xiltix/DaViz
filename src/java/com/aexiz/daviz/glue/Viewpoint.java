@@ -1,6 +1,8 @@
 package com.aexiz.daviz.glue;
 
-public abstract class Viewpoint extends Locus {
+import java.io.Serializable;
+
+public abstract class Viewpoint extends Locus{
 	
 	public static class Channel extends Viewpoint {
 		

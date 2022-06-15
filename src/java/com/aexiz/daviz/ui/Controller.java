@@ -479,21 +479,21 @@ class Controller {
 		refreshActions();
 	}
 	
-	private static void saveDataOut(Network network)throws Exception{
+	private static void saveDataOut(DefaultGraphModel networkModel2)throws Exception{
 		String fileName = "test.txt";
 	    FileOutputStream fos = new FileOutputStream(fileName);
 	    ObjectOutputStream oos = new ObjectOutputStream(fos);
-	    oos.writeObject(network);
+	    oos.writeObject(networkModel2);
 	    oos.close();		
 	}
 	
-	public static Network loadDataIn()throws Exception{
+	public static DefaultGraphModel loadDataIn()throws Exception{
 		   String fileName= "test.txt";
 		   FileInputStream fin = new FileInputStream(fileName);
 		   ObjectInputStream ois = new ObjectInputStream(fin);
-		   Network network= (Network) ois.readObject();
+		   DefaultGraphModel networkModel2= (DefaultGraphModel) ois.readObject();
 		   ois.close();
-		   return network;
+		   return networkModel2;
 		}
 	
 	
@@ -560,8 +560,8 @@ class Controller {
 				
 				
 				// Print Network
-				System.out.println(network);
-				saveDataOut(network);
+				System.out.println(networkModel);
+				saveDataOut(networkModel);
 				
 				
 				

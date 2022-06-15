@@ -1,5 +1,6 @@
 package com.aexiz.daviz.ui.swing;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.HashMap;
@@ -10,8 +11,12 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
-public class DefaultGraphModel implements GraphModel {
+public class DefaultGraphModel implements GraphModel, Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private EventListenerList listenerList = new EventListenerList();
 	
 	public void addChangeListener(ChangeListener l) {
@@ -56,8 +61,10 @@ public class DefaultGraphModel implements GraphModel {
 		}
 	}
 	
-	class DefaultNodeModel implements NodeModel {
+	class DefaultNodeModel implements NodeModel, Serializable {
 		
+		
+		private static final long serialVersionUID = 1L;
 		protected float x, y, dx, dy;
 		protected boolean pressed;
 		protected String label = "?";
@@ -214,8 +221,10 @@ public class DefaultGraphModel implements GraphModel {
 		}
 	}
 	
-	class DefaultEdgeModel implements EdgeModel {
+	class DefaultEdgeModel implements EdgeModel, Serializable {
 		
+
+		private static final long serialVersionUID = 1L;
 		protected DefaultNodeModel from;
 		protected DefaultNodeModel to;
 		
