@@ -1,5 +1,6 @@
 package com.aexiz.daviz.glue;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import com.aexiz.daviz.sim.Set;
@@ -9,7 +10,7 @@ import frege.prelude.PreludeBase.TTuple2;
 import frege.run8.Lazy;
 import frege.run8.Thunk;
 
-public class Network {
+public class Network implements Serializable {
 	
 	private ArrayList<Viewpoint.Node> processes = new ArrayList<Viewpoint.Node>();
 	private ArrayList<Viewpoint.Channel> channels = new ArrayList<Viewpoint.Channel>();

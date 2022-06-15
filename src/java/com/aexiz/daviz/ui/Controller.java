@@ -12,6 +12,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.awt.event.WindowListener;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.EventObject;
 import java.util.HashMap;
 import java.util.concurrent.Callable;
@@ -440,6 +444,14 @@ class Controller {
 		if (isDirty()) {
 			int result = JOptionPane.showConfirmDialog(control, msg, "Unsaved changes", JOptionPane.YES_NO_CANCEL_OPTION);
 			if (result == JOptionPane.YES_OPTION) {
+				
+				/*
+				
+				System.out.println(networkModel.toString());
+				
+				
+				
+				*/
 				// Save and then proceed
 				// TODO save
 				return true;
@@ -466,6 +478,25 @@ class Controller {
 		clearSimulation();
 		refreshActions();
 	}
+	
+	private static void saveDataOut(Network network)throws Exception{
+		String fileName = "test.txt";
+	    FileOutputStream fos = new FileOutputStream(fileName);
+	    ObjectOutputStream oos = new ObjectOutputStream(fos);
+	    oos.writeObject(network);
+	    oos.close();		
+	}
+	
+	public static Network loadDataIn()throws Exception{
+		   String fileName= "test.txt";
+		   FileInputStream fin = new FileInputStream(fileName);
+		   ObjectInputStream ois = new ObjectInputStream(fin);
+		   Network network= (Network) ois.readObject();
+		   ois.close();
+		   return network;
+		}
+	
+	
 	
 	void start() {
 		simulationManager.afterSimulation(() -> {
@@ -495,6 +526,9 @@ class Controller {
 				// Load network vertices, edges and initiator
 				Network network = new Network();
 				NodeModel[] nodes = networkModel.getNode();
+				
+
+				
 				Node[] ps = new Node[nodes.length];
 				for (int i = 0; i < nodes.length; i++) {
 					ps[i] = new Node(nodes[i].getLabel());
@@ -523,6 +557,14 @@ class Controller {
 						network.addChannel(c);
 					}
 				}
+				
+				
+				// Print Network
+				System.out.println(network);
+				saveDataOut(network);
+				
+				
+				
 				sim.setNetwork(network);
 				if (init != null) {
 					Node[] is = new Node[init.length];
