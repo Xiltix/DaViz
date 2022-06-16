@@ -20,7 +20,7 @@ import com.aexiz.daviz.ui.swing.plaf.basic.BasicGraphUI;
 /**
  * A graph component that visualizes and allows user-interactive editing of graph structures. 
  */
-public class JGraph extends JComponent {
+public class JGraph extends JComponent implements Serializable {
 
 	private static final long serialVersionUID = 2243441260190095826L;
 	
@@ -55,9 +55,9 @@ public class JGraph extends JComponent {
 		updateUI();
 	}
 	
-	public static class JNode extends JKnob {
+	public static class JNode extends JKnob implements Serializable {
 
-		private static final long serialVersionUID = -3614183062524808053L;
+		private static final long serialVersionUID = 3614183062524808053L;
 		
 		private NodeModel model;
 		
@@ -69,7 +69,7 @@ public class JGraph extends JComponent {
 			}
 		};
 		
-		protected JNode() {
+		protected JNode()   {
 		}
 		
 		public void setModel(NodeModel model) {
@@ -202,7 +202,7 @@ public class JGraph extends JComponent {
 		
 	}
 	
-	public static class JEdge extends JKnob {
+	public static class JEdge extends JKnob implements Serializable {
 
 		private static final long serialVersionUID = -3116847790422523979L;
 		
