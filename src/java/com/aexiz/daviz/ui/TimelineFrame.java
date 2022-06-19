@@ -92,11 +92,11 @@ class TimelineFrame extends JDialog {
 		});
 		
 		
-		JScrollPane scrollPane2 = new JScrollPane(carousel);
-		scrollPane2.setBorder(BorderFactory.createEmptyBorder());
+		JScrollPane scrollPaneChoice = new JScrollPane(carousel);
+		scrollPaneChoice.setBorder(BorderFactory.createEmptyBorder());
 		
-		Container contentPane2 = getContentPane();
-		contentPane2.add(scrollPane, BorderLayout.CENTER);
+		Container contentPaneChoice = getContentPane();
+		contentPaneChoice.add(scrollPaneChoice, BorderLayout.PAGE_END);
 		
 		
 		
