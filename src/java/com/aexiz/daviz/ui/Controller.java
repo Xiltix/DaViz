@@ -478,24 +478,6 @@ class Controller {
 		refreshActions();
 	}
 	
-	private static void saveDataOut(DefaultGraphModel networkModel2)throws Exception{
-		String fileName = "test.txt";
-	    FileOutputStream fos = new FileOutputStream(fileName);
-	    ObjectOutputStream oos = new ObjectOutputStream(fos);
-	    oos.writeObject(networkModel2);
-	    oos.close();		
-	}
-	
-	public static DefaultGraphModel loadDataIn()throws Exception{
-		   String fileName= "test.txt";
-		   FileInputStream fin = new FileInputStream(fileName);
-		   ObjectInputStream ois = new ObjectInputStream(fin);
-		   DefaultGraphModel networkModel2= (DefaultGraphModel) ois.readObject();
-		   ois.close();
-		   return networkModel2;
-		}
-	
-	
 	
 	void start() {
 		simulationManager.afterSimulation(() -> {
@@ -545,6 +527,7 @@ class Controller {
 					}
 					if (f == null || t == null) throw new Error();
 					es[i] = new Channel(f , t);
+					
 					es[i].putClientProperty(Channel.CLIENT_PROPERTY_EDGEMODEL, edges[i]);
 					es[i].putClientProperty(Channel.CLIENT_PROPERTY_FIRST_DIRECTED, true);
 					network.addChannel(es[i]);
@@ -556,11 +539,14 @@ class Controller {
 						network.addChannel(c);
 					}
 				}
+
+				for(int i = 0; i< nodes.length; i++) {
+					System.out.println(nodes[i].toString()+":"+nodes[i].getX()+":"+nodes[i].getY());
+				}
 				
-				
-				// Print Network
-				System.out.println(networkModel);
-				saveDataOut(networkModel);
+				for(int i = 0; i< es.length; i++) {
+					System.out.println(es[i].toString());
+				}
 				
 				
 				
