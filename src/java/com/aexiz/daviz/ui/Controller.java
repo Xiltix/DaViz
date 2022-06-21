@@ -12,8 +12,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.awt.event.WindowListener;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.EventObject;
@@ -25,6 +28,7 @@ import javax.swing.Action;
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -439,23 +443,66 @@ class Controller {
 		listSelectionModel.addListSelectionListener(h);
 	}
 	
-	boolean confirmSave(String msg) {
+	boolean confirmSave(String msg) {	
 		if (isDirty()) {
 			int result = JOptionPane.showConfirmDialog(control, msg, "Unsaved changes", JOptionPane.YES_NO_CANCEL_OPTION);
 			if (result == JOptionPane.YES_OPTION) {
+				JFrame parentFrame = new JFrame();
 				
-				/*
+				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.setDialogTitle("Specify a file to save");   
+		//		fileChooser.setCurrentDirectory(null);
+				 
+
+				int userSelection = fileChooser.showSaveDialog(parentFrame);
 				
-				System.out.println(networkModel.toString());
 				
-				
-				
-				*/
+				if (userSelection == JFileChooser.APPROVE_OPTION) {
+				    File fileToSave = fileChooser.getSelectedFile();
+				    System.out.println("Save as file: " + fileToSave.getAbsolutePath());
+				    try {
+						FileWriter graphWriter = new FileWriter(fileToSave);	
+						graphWriter.write("--NODES--");
+					    NodeModel[] nodes = networkModel.getNode();
+					
+					    for(int i = 0; i< nodes.length; i++) {
+							//Print Nodes to .txt file
+						    	System.out.println(nodes[i].toString()+":"+nodes[i].getX()+":"+nodes[i].getY());
+								graphWriter.write(nodes[i].toString()+":"+nodes[i].getX()+":"+nodes[i].getY());
+					    }
+					
+					    EdgeModel[] edges = networkModel.getValidEdge();
+					    Channel[] es = new Channel[edges.length];
+						graphWriter.write("--EDGES--");
+					
+					    for(int i = 0; i< es.length; i++) {
+					    	System.out.println(es[i].toString());
+							graphWriter.write(es[i].toString());
+					    }
+					    
+						graphWriter.write("--END--");
+						graphWriter.close();
+					    } catch (IOException e) {
+							System.out.println("Failed to write to file");
+							e.printStackTrace();
+						}
+					    
+					    
+					}else if(userSelection == JFileChooser.CANCEL_OPTION||userSelection == JFileChooser.ERROR_OPTION) {
+						return false;
+					}
 				// Save and then proceed
 				// TODO save
 				return true;
 			} else if (result == JOptionPane.NO_OPTION) {
 				// Discard and proceed
+				
+				
+				
+				
+				
+				
+				
 				return true;
 			} else if (result == JOptionPane.CANCEL_OPTION) {
 				// Cancel operation
@@ -540,6 +587,8 @@ class Controller {
 					}
 				}
 
+				
+				/*
 				for(int i = 0; i< nodes.length; i++) {
 					System.out.println(nodes[i].toString()+":"+nodes[i].getX()+":"+nodes[i].getY());
 				}
@@ -548,7 +597,7 @@ class Controller {
 					System.out.println(es[i].toString());
 				}
 				
-				
+				*/
 				
 				sim.setNetwork(network);
 				if (init != null) {
