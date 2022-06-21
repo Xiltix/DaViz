@@ -442,55 +442,65 @@ class Controller {
 		timelineModel.addCoarseTimeEventListener(h);
 		listSelectionModel.addListSelectionListener(h);
 	}
+	private void saveGraphToFile(){
+		JFrame parentFrame = new JFrame();
+		
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setDialogTitle("Specify a file to save");   
+//		fileChooser.setCurrentDirectory(null);
+		 
+
+		int userSelection = fileChooser.showSaveDialog(parentFrame);
+		
+		
+		if (userSelection == JFileChooser.APPROVE_OPTION) {
+		    File fileToSave = fileChooser.getSelectedFile();
+		    System.out.println("Save as file: " + fileToSave.getAbsolutePath());
+		    try {
+				FileWriter graphWriter = new FileWriter(fileToSave);	
+				graphWriter.write("--NODES--");
+			    NodeModel[] nodes = networkModel.getNode();
+			
+			    for(int i = 0; i< nodes.length; i++) {
+					//Print Nodes to .txt file
+				    	System.out.println(nodes[i].toString()+":"+nodes[i].getX()+":"+nodes[i].getY());
+						graphWriter.write(nodes[i].toString()+":"+nodes[i].getX()+":"+nodes[i].getY());
+			    }
+
+			    
+			    
+			    EdgeModel[] edges = networkModel.getValidEdge();
+			    Channel[] es = new Channel[edges.length];
+				graphWriter.write("--EDGES--");
+			
+			    System.out.println(edges.length);
+			    System.out.println(es.length);
+			    
+			    for(int i = 0; i< es.length-1; i++) {
+			    	System.out.println(es[i].toString());
+					graphWriter.write(es[i].toString());
+			    }
+			    
+				graphWriter.write("--END--");
+				graphWriter.close();
+			    } catch (IOException e) {
+					System.out.println("Failed to write to file");
+					e.printStackTrace();
+				}
+			    
+			    return;
+			}else if(userSelection == JFileChooser.CANCEL_OPTION||userSelection == JFileChooser.ERROR_OPTION) {
+				return;
+			}
+	
+	}
+	
 	
 	boolean confirmSave(String msg) {	
 		if (isDirty()) {
 			int result = JOptionPane.showConfirmDialog(control, msg, "Unsaved changes", JOptionPane.YES_NO_CANCEL_OPTION);
 			if (result == JOptionPane.YES_OPTION) {
-				JFrame parentFrame = new JFrame();
-				
-				JFileChooser fileChooser = new JFileChooser();
-				fileChooser.setDialogTitle("Specify a file to save");   
-		//		fileChooser.setCurrentDirectory(null);
-				 
 
-				int userSelection = fileChooser.showSaveDialog(parentFrame);
-				
-				
-				if (userSelection == JFileChooser.APPROVE_OPTION) {
-				    File fileToSave = fileChooser.getSelectedFile();
-				    System.out.println("Save as file: " + fileToSave.getAbsolutePath());
-				    try {
-						FileWriter graphWriter = new FileWriter(fileToSave);	
-						graphWriter.write("--NODES--");
-					    NodeModel[] nodes = networkModel.getNode();
-					
-					    for(int i = 0; i< nodes.length; i++) {
-							//Print Nodes to .txt file
-						    	System.out.println(nodes[i].toString()+":"+nodes[i].getX()+":"+nodes[i].getY());
-								graphWriter.write(nodes[i].toString()+":"+nodes[i].getX()+":"+nodes[i].getY());
-					    }
-					
-					    EdgeModel[] edges = networkModel.getValidEdge();
-					    Channel[] es = new Channel[edges.length];
-						graphWriter.write("--EDGES--");
-					
-					    for(int i = 0; i< es.length; i++) {
-					    	System.out.println(es[i].toString());
-							graphWriter.write(es[i].toString());
-					    }
-					    
-						graphWriter.write("--END--");
-						graphWriter.close();
-					    } catch (IOException e) {
-							System.out.println("Failed to write to file");
-							e.printStackTrace();
-						}
-					    
-					    
-					}else if(userSelection == JFileChooser.CANCEL_OPTION||userSelection == JFileChooser.ERROR_OPTION) {
-						return false;
-					}
 				// Save and then proceed
 				// TODO save
 				return true;
@@ -587,7 +597,7 @@ class Controller {
 					}
 				}
 
-				
+				saveGraphToFile();
 				/*
 				for(int i = 0; i< nodes.length; i++) {
 					System.out.println(nodes[i].toString()+":"+nodes[i].getX()+":"+nodes[i].getY());
