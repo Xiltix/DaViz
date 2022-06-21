@@ -28,6 +28,8 @@ public class JCarousel extends JComponent {
 	
 	static final String UICLASSID = "CarouselUI";
 	
+	int counter;
+	
 	static {
 		UIDefaults def = UIManager.getDefaults();
 		if (def.get(UICLASSID) == null)
@@ -44,6 +46,7 @@ public class JCarousel extends JComponent {
 	private transient Handler handler;
 	
 	public JCarousel() {
+		counter = 0;
 		setOpaque(true);
 		setCellRenderer(new DefaultCarouselCellRenderer());
 		setModel(new DefaultListModel<>());
@@ -100,10 +103,12 @@ public class JCarousel extends JComponent {
 	
 	public void setModel(ListModel<?> model) {
 		ListModel<?> oldModel = listModel;
+		
 		if (oldModel != null) {
 			oldModel.removeListDataListener(listDataListener);
 			listDataListener = null;
 		}
+
 		listModel = model;
 		if (model != null) {
 			listDataListener = createListDataListener();
@@ -264,6 +269,13 @@ public class JCarousel extends JComponent {
 		CarouselUI ui = getUI();
 		return ui != null ? ui.indexToLocation(this, index) : null;
 	}
+	public void incrementCounter() {
+		counter++;
+	}
+	public void decrementCounter() {
+		counter--;
+	}
+	
 	
 	protected ListDataListener createListDataListener() {
 		return getHandler();

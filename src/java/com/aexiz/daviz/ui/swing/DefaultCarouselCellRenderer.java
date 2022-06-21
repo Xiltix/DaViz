@@ -19,7 +19,10 @@ public class DefaultCarouselCellRenderer extends JLabel implements CarouselCellR
 	Border notSelectedAndFocus;
 	Border notFocus;
 	
+	
 	private void loadBordersFromListRenderer() {
+		
+		
 		if (loaded) return;
 		JList<Object> l = new JList<>();
 		ListCellRenderer<Object> lcr = l.getCellRenderer();
@@ -48,7 +51,9 @@ public class DefaultCarouselCellRenderer extends JLabel implements CarouselCellR
 			setBackground(list.getBackground());
 			setForeground(list.getForeground());
 		}
-		setText(value == null ? "" : value.toString());
+		
+		
+		setText(value == null ? "" : list.counter+" : "+value.toString());
 		setEnabled(list.isEnabled());
 		setFont(list.getFont());
 		Border border = null;

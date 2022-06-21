@@ -307,7 +307,6 @@ class Controller {
 	
 	void installFocusListeners() {
 		Window[] windows = new Window[]{control, network, timeline, info};
-	//	Window[] windows = new Window[]{control, network, timeline, info, choice};
 		class WindowHandler implements WindowListener, WindowFocusListener {
 			public void windowGainedFocus(WindowEvent e) {
 				Window active = e.getWindow();

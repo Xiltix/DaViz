@@ -181,6 +181,7 @@ class TimelineFrame extends JDialog {
 				putValue(Action.MNEMONIC_KEY, KeyEvent.VK_N);
 			}
 			public void actionPerformed(ActionEvent e) {
+				carousel.incrementCounter();
 				timeline.setCurrentTime(timeline.getCurrentTime() + 1.0f);
 				timeline.requestFocusInWindow();
 			}
@@ -195,6 +196,7 @@ class TimelineFrame extends JDialog {
 				putValue(Action.MNEMONIC_KEY, KeyEvent.VK_P);
 			}
 			public void actionPerformed(ActionEvent e) {
+				carousel.decrementCounter();
 				timeline.setCurrentTime(timeline.getCurrentTime() - 1.0f);
 				timeline.requestFocusInWindow();
 			}
