@@ -455,34 +455,66 @@ class Controller {
 		
 		if (userSelection == JFileChooser.APPROVE_OPTION) {
 		    File fileToSave = fileChooser.getSelectedFile();
-		    System.out.println("Save as file: " + fileToSave.getAbsolutePath());
+	//	    System.out.println("Save as file: " + fileToSave.getAbsolutePath());
+		    
 		    try {
+		    	
 				FileWriter graphWriter = new FileWriter(fileToSave);	
 				graphWriter.write("--NODES--");
 			    NodeModel[] nodes = networkModel.getNode();
-			
-			    for(int i = 0; i< nodes.length; i++) {
-					//Print Nodes to .txt file
-				    	System.out.println(nodes[i].toString()+":"+nodes[i].getX()+":"+nodes[i].getY());
-						graphWriter.write(nodes[i].toString()+":"+nodes[i].getX()+":"+nodes[i].getY());
-			    }
+				Node[] ps = new Node[nodes.length];
+				
+					for (int i = 0; i < nodes.length; i++) {
+						ps[i] = new Node(nodes[i].getLabel());
+						ps[i].putClientProperty(Node.CLIENT_PROPERTY_NODEMODEL, nodes[i]);
+					}
+				
+				    for(int i = 0; i< nodes.length; i++) {
+						//Print Nodes to .txt file
+					    	System.out.println(nodes[i].toString()+":"+nodes[i].getX()+":"+nodes[i].getY());
+							graphWriter.write(nodes[i].toString()+":"+nodes[i].getX()+":"+nodes[i].getY());
+				    }
 
+				 
+					EdgeModel[] edges = networkModel.getValidEdge();
+					
+					Channel[] es = new Channel[edges.length];
+					
+					graphWriter.write("--EDGES--");
+					
+					for (int i = 0; i < edges.length; i++) {
+						NodeModel from = edges[i].getFrom(), to = edges[i].getTo();
+						Node f = null, t = null;
+						for (int j = 0; (f == null || t == null) && j < nodes.length; j++) {
+							if (nodes[j] == from) f = ps[j];
+							if (nodes[j] == to) t = ps[j];
+						}
+						if (f == null || t == null) throw new Error();
+						es[i] = new Channel(f , t);
+						es[i].putClientProperty(Channel.CLIENT_PROPERTY_EDGEMODEL, edges[i]);
+						es[i].putClientProperty(Channel.CLIENT_PROPERTY_FIRST_DIRECTED, true);
+						if (!edges[i].isDirected()) {
+							// Also add reverse edge
+							Channel c = new Channel(t, f);
+							c.putClientProperty(Channel.CLIENT_PROPERTY_EDGEMODEL, edges[i]);
+							c.putClientProperty(Channel.CLIENT_PROPERTY_FIRST_DIRECTED, false);
+						}
+					
+					}
+					
+		//	    System.out.println(edges.length);
 			    
-			    
-			    EdgeModel[] edges = networkModel.getValidEdge();
-			    Channel[] es = new Channel[edges.length];
-				graphWriter.write("--EDGES--");
-			
-			    System.out.println(edges.length);
-			    System.out.println(es.length);
-			    
-			    for(int i = 0; i< es.length-1; i++) {
-			    	System.out.println(es[i].toString());
-					graphWriter.write(es[i].toString());
+			    for(int i = 0; i< es.length; i++) {
+			 //   	System.out.println(es[i].toString());
+			 //   	System.out.println(i);
+					graphWriter.write(":"+es[i].toString());
 			    }
 			    
 				graphWriter.write("--END--");
-				graphWriter.close();
+				graphWriter.close();	
+				
+				
+				
 			    } catch (IOException e) {
 					System.out.println("Failed to write to file");
 					e.printStackTrace();
