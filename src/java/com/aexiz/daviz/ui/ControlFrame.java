@@ -294,7 +294,10 @@ public class ControlFrame extends JFrame {
 				putValue(Action.MNEMONIC_KEY, KeyEvent.VK_O);
 			}
 			public void actionPerformed(ActionEvent e) {
-				
+				if (controller.confirmSave("Unsaved changes get lost if you start from scratch.\nDo you want to save the current scenario?")) {
+					controller.clear();
+					controller.loadGraphFromFile();
+				}
 			}
 		});
 		controller.registerAction("save-scenario", new AbstractAction() {
@@ -306,6 +309,7 @@ public class ControlFrame extends JFrame {
 				putValue(Action.MNEMONIC_KEY, KeyEvent.VK_S);
 			}
 			public void actionPerformed(ActionEvent e) {
+				controller.saveGraphToFile();
 				
 			}
 		});
@@ -414,12 +418,13 @@ public class ControlFrame extends JFrame {
 		mb.setToolTipText(null);
 		menu.add(mb);
 		// TODO: saving and loading scenarios is not yet supported
-		/*mb = new JMenuItem(controller.getAction("load-scenario"));
+		mb = new JMenuItem(controller.getAction("load-scenario"));
 		mb.setToolTipText(null);
 		menu.add(mb);
 		mb = new JMenuItem(controller.getAction("save-scenario"));
 		mb.setToolTipText(null);
 		menu.add(mb);
+		/*
 		mb = new JMenuItem(controller.getAction("save-as-scenario"));
 		mb.setToolTipText(null);
 		menu.add(mb);*/

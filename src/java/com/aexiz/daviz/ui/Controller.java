@@ -446,7 +446,7 @@ class Controller {
 		timelineModel.addCoarseTimeEventListener(h);
 		listSelectionModel.addListSelectionListener(h);
 	}
-	private void loadGraphFromFile() {
+	void loadGraphFromFile() {
 		JFrame parentFrame = new JFrame();
 		
 		JFileChooser fileChooser = new JFileChooser();
@@ -484,7 +484,7 @@ class Controller {
 							dataOnNode.close();
 							System.out.println(x.getLabel()+"-NODE");
 					}
-						String edgeFullData = lineReader.next();
+					String edgeFullData = lineReader.next();
 						
 					Scanner edgeReader = new Scanner(edgeFullData);
 					edgeReader.useDelimiter(":");
@@ -501,19 +501,10 @@ class Controller {
 										net.addChannel(new Channel(nodeList.get(i),nodeList.get(j)));
 									}
 								}
-							}
-							
-							
-							
-					//		net.addChannel(new Channel(p, q));
-						//	net.addChannel(new Channel(nodeList.get(1).))
-							
+							}				
 							dataOnEdge.close();
 							net.makeUndirected();
 						}
-					
-			//		data2 =	lineReader.next();
-			//		System.out.println(data2);		
 					edgeReader.close();
 					nodeReader.close();
 					lineReader.close();
@@ -526,7 +517,7 @@ class Controller {
 		}		
 	}
 	
-	private void saveGraphToFile(){
+	 void saveGraphToFile(){
 		JFrame parentFrame = new JFrame();		
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setDialogTitle("Specify a file to save");   
@@ -680,7 +671,7 @@ class Controller {
 						network.addChannel(c);
 					}
 				}
-				loadGraphFromFile();
+			//	loadGraphFromFile();
 		//		saveGraphToFile();
 
 				
