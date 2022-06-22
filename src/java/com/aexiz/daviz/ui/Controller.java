@@ -14,13 +14,17 @@ import java.awt.event.WindowFocusListener;
 import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Scanner;
 import java.util.concurrent.Callable;
 
 import javax.swing.AbstractAction;
@@ -442,23 +446,97 @@ class Controller {
 		timelineModel.addCoarseTimeEventListener(h);
 		listSelectionModel.addListSelectionListener(h);
 	}
-	private void saveGraphToFile(){
+	private void loadGraphFromFile() {
 		JFrame parentFrame = new JFrame();
 		
 		JFileChooser fileChooser = new JFileChooser();
-		fileChooser.setDialogTitle("Specify a file to save");   
-//		fileChooser.setCurrentDirectory(null);
-		 
+		fileChooser.setDialogTitle("Specify a file to load");   
+		int userSelection = fileChooser.showOpenDialog(parentFrame);
+		
+		Network net = new Network();
+		List<Node> nodeList = new ArrayList<>();
+		
+				
+		if (userSelection == JFileChooser.APPROVE_OPTION) {
+		    File fileToLoad = fileChooser.getSelectedFile();
+		    try {
+				Scanner fileReader = new Scanner(fileToLoad);
+				while(fileReader.hasNextLine()) {
+					String data = fileReader.nextLine();
+					System.out.println(data);
+					Scanner lineReader = new Scanner(data);
+					lineReader.skip("--NODES--");
+					lineReader.useDelimiter("--EDGES--");
+					String data2 =	lineReader.next();
+					System.out.println(data2);
+					Scanner nodeReader = new Scanner(data2);
+					nodeReader.useDelimiter(",");
 
+						while(nodeReader.hasNext()) {
+							String nodeData = nodeReader.next();
+							Scanner dataOnNode = new Scanner(nodeData);
+							dataOnNode.useDelimiter(":");
+							
+							Node x = net.addNode(new Node(dataOnNode.next()));
+							x.putClientProperty(Node.CLIENT_PROPERTY_POSITION_X, dataOnNode.nextFloat());
+							x.putClientProperty(Node.CLIENT_PROPERTY_POSITION_Y, dataOnNode.nextFloat());
+							nodeList.add(x);
+							dataOnNode.close();
+							System.out.println(x.getLabel()+"-NODE");
+					}
+						String edgeFullData = lineReader.next();
+						
+					Scanner edgeReader = new Scanner(edgeFullData);
+					edgeReader.useDelimiter(":");
+						while(edgeReader.hasNext()) {	
+							String edgeData = edgeReader.next();		
+							Scanner dataOnEdge = new Scanner(edgeData);
+							dataOnEdge.useDelimiter("-");
+							String edge1 = dataOnEdge.next();
+							String edge2 = dataOnEdge.next();
+							
+							for(int i = 0;i < nodeList.size();i++) {
+								for(int j = 0;j <nodeList.size();j++) {
+									if(edge1.equals(nodeList.get(i).getLabel())&&edge2.equals(nodeList.get(j).getLabel())){
+										net.addChannel(new Channel(nodeList.get(i),nodeList.get(j)));
+									}
+								}
+							}
+							
+							
+							
+					//		net.addChannel(new Channel(p, q));
+						//	net.addChannel(new Channel(nodeList.get(1).))
+							
+							dataOnEdge.close();
+							net.makeUndirected();
+						}
+					
+			//		data2 =	lineReader.next();
+			//		System.out.println(data2);		
+					edgeReader.close();
+					nodeReader.close();
+					lineReader.close();
+				}
+				fileReader.close();
+			} catch (FileNotFoundException e) {
+				System.out.println("Failed to load file");
+				e.printStackTrace();
+			}
+		}		
+	}
+	
+	private void saveGraphToFile(){
+		JFrame parentFrame = new JFrame();		
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setDialogTitle("Specify a file to save");   
 		int userSelection = fileChooser.showSaveDialog(parentFrame);
-		
-		
+				
 		if (userSelection == JFileChooser.APPROVE_OPTION) {
 		    File fileToSave = fileChooser.getSelectedFile();
-	//	    System.out.println("Save as file: " + fileToSave.getAbsolutePath());
 		    
-		    try {
-		    	
+		    try { 	
+		    	//Print Nodes to file
 				FileWriter graphWriter = new FileWriter(fileToSave);	
 				graphWriter.write("--NODES--");
 			    NodeModel[] nodes = networkModel.getNode();
@@ -470,16 +548,11 @@ class Controller {
 					}
 				
 				    for(int i = 0; i< nodes.length; i++) {
-						//Print Nodes to .txt file
-					    	System.out.println(nodes[i].toString()+":"+nodes[i].getX()+":"+nodes[i].getY());
-							graphWriter.write(nodes[i].toString()+":"+nodes[i].getX()+":"+nodes[i].getY());
-				    }
-
-				 
-					EdgeModel[] edges = networkModel.getValidEdge();
-					
+							graphWriter.write(nodes[i].toString()+":"+nodes[i].getX()+":"+nodes[i].getY()+",");
+				    }		 
+					EdgeModel[] edges = networkModel.getValidEdge();	
 					Channel[] es = new Channel[edges.length];
-					
+					// Print Edges to file
 					graphWriter.write("--EDGES--");
 					
 					for (int i = 0; i < edges.length; i++) {
@@ -494,37 +567,27 @@ class Controller {
 						es[i].putClientProperty(Channel.CLIENT_PROPERTY_EDGEMODEL, edges[i]);
 						es[i].putClientProperty(Channel.CLIENT_PROPERTY_FIRST_DIRECTED, true);
 						if (!edges[i].isDirected()) {
-							// Also add reverse edge
 							Channel c = new Channel(t, f);
 							c.putClientProperty(Channel.CLIENT_PROPERTY_EDGEMODEL, edges[i]);
 							c.putClientProperty(Channel.CLIENT_PROPERTY_FIRST_DIRECTED, false);
 						}
-					
 					}
-					
-		//	    System.out.println(edges.length);
 			    
 			    for(int i = 0; i< es.length; i++) {
-			 //   	System.out.println(es[i].toString());
-			 //   	System.out.println(i);
 					graphWriter.write(":"+es[i].toString());
 			    }
-			    
+			    // End of file
 				graphWriter.write("--END--");
 				graphWriter.close();	
-				
-				
 				
 			    } catch (IOException e) {
 					System.out.println("Failed to write to file");
 					e.printStackTrace();
 				}
-			    
 			    return;
 			}else if(userSelection == JFileChooser.CANCEL_OPTION||userSelection == JFileChooser.ERROR_OPTION) {
 				return;
 			}
-	
 	}
 	
 	
@@ -532,22 +595,11 @@ class Controller {
 		if (isDirty()) {
 			int result = JOptionPane.showConfirmDialog(control, msg, "Unsaved changes", JOptionPane.YES_NO_CANCEL_OPTION);
 			if (result == JOptionPane.YES_OPTION) {
-
-				// Save and then proceed
-				// TODO save
+				saveGraphToFile();
 				return true;
 			} else if (result == JOptionPane.NO_OPTION) {
-				// Discard and proceed
-				
-				
-				
-				
-				
-				
-				
 				return true;
 			} else if (result == JOptionPane.CANCEL_OPTION) {
-				// Cancel operation
 				return false;
 			} else throw new Error();
 		}
@@ -628,18 +680,9 @@ class Controller {
 						network.addChannel(c);
 					}
 				}
+				loadGraphFromFile();
+		//		saveGraphToFile();
 
-				saveGraphToFile();
-				/*
-				for(int i = 0; i< nodes.length; i++) {
-					System.out.println(nodes[i].toString()+":"+nodes[i].getX()+":"+nodes[i].getY());
-				}
-				
-				for(int i = 0; i< es.length; i++) {
-					System.out.println(es[i].toString());
-				}
-				
-				*/
 				
 				sim.setNetwork(network);
 				if (init != null) {
