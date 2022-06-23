@@ -452,9 +452,7 @@ class Controller {
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setDialogTitle("Specify a file to load");   
 		int userSelection = fileChooser.showOpenDialog(parentFrame);
-		
-		Network net = new Network();
-		List<Node> nodeList = new ArrayList<>();
+		List<NodeModel> nodes = new ArrayList<>();
 		
 				
 		if (userSelection == JFileChooser.APPROVE_OPTION) {
@@ -463,30 +461,28 @@ class Controller {
 				Scanner fileReader = new Scanner(fileToLoad);
 				while(fileReader.hasNextLine()) {
 					String data = fileReader.nextLine();
-					System.out.println(data);
 					Scanner lineReader = new Scanner(data);
 					lineReader.skip("--NODES--");
 					lineReader.useDelimiter("--EDGES--");
 					String data2 =	lineReader.next();
-					System.out.println(data2);
 					Scanner nodeReader = new Scanner(data2);
 					nodeReader.useDelimiter(",");
 
-						while(nodeReader.hasNext()) {
+						for(int i = 0;nodeReader.hasNext(); i++) {
 							String nodeData = nodeReader.next();
 							Scanner dataOnNode = new Scanner(nodeData);
 							dataOnNode.useDelimiter(":");
 							
-							Node x = net.addNode(new Node(dataOnNode.next()));
-							x.putClientProperty(Node.CLIENT_PROPERTY_POSITION_X, dataOnNode.nextFloat());
-							x.putClientProperty(Node.CLIENT_PROPERTY_POSITION_Y, dataOnNode.nextFloat());
-							nodeList.add(x);
+							String labelNode = dataOnNode.next();
+							nodes.add(networkModel.createNode( dataOnNode.nextFloat(), dataOnNode.nextFloat()));
+							nodes.get(i).setLabel(labelNode);
+							networkModel.addNode(nodes.get(i));
 							dataOnNode.close();
-							System.out.println(x.getLabel()+"-NODE");
-					}
-					String edgeFullData = lineReader.next();
+							}
 						
+					String edgeFullData = lineReader.next();	
 					Scanner edgeReader = new Scanner(edgeFullData);
+					
 					edgeReader.useDelimiter(":");
 						while(edgeReader.hasNext()) {	
 							String edgeData = edgeReader.next();		
@@ -494,21 +490,15 @@ class Controller {
 							dataOnEdge.useDelimiter("-");
 							String edge1 = dataOnEdge.next();
 							String edge2 = dataOnEdge.next();
-							
-							for(int i = 0;i < nodeList.size();i++) {
-								for(int j = 0;j <nodeList.size();j++) {
-									if(edge1.equals(nodeList.get(i).getLabel())&&edge2.equals(nodeList.get(j).getLabel())){
-										net.addChannel(new Channel(nodeList.get(i),nodeList.get(j)));
-									}
-								}
-							}				
+							networkModel.addEdge(networkModel.createEdge(networkModel.findNodeByLabel(edge1),networkModel.findNodeByLabel(edge2)));
+										
 							dataOnEdge.close();
-							net.makeUndirected();
 						}
 					edgeReader.close();
 					nodeReader.close();
 					lineReader.close();
 				}
+				
 				fileReader.close();
 			} catch (FileNotFoundException e) {
 				System.out.println("Failed to load file");
@@ -553,7 +543,11 @@ class Controller {
 							if (nodes[j] == from) f = ps[j];
 							if (nodes[j] == to) t = ps[j];
 						}
-						if (f == null || t == null) throw new Error();
+						
+						if (f == null || t == null) {
+							graphWriter.close();
+							throw new Error();
+						}
 						es[i] = new Channel(f , t);
 						es[i].putClientProperty(Channel.CLIENT_PROPERTY_EDGEMODEL, edges[i]);
 						es[i].putClientProperty(Channel.CLIENT_PROPERTY_FIRST_DIRECTED, true);
@@ -561,9 +555,10 @@ class Controller {
 							Channel c = new Channel(t, f);
 							c.putClientProperty(Channel.CLIENT_PROPERTY_EDGEMODEL, edges[i]);
 							c.putClientProperty(Channel.CLIENT_PROPERTY_FIRST_DIRECTED, false);
+							
 						}
 					}
-			    
+				
 			    for(int i = 0; i< es.length; i++) {
 					graphWriter.write(":"+es[i].toString());
 			    }
