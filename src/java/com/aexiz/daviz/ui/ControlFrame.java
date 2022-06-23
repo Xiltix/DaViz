@@ -410,14 +410,12 @@ public class ControlFrame extends JFrame {
 		tb.setHideActionText(true);
 		toolbar.add(tb);
 		menu.add(mb);
-		menubar.add(menu, 0);
-		
+		menubar.add(menu, 0);	
 		menu = new JMenu("File");
 		menu.setMnemonic('f');
 		mb = new JMenuItem(controller.getAction("new-scenario"));
 		mb.setToolTipText(null);
 		menu.add(mb);
-		// TODO: saving and loading scenarios is not yet supported
 		mb = new JMenuItem(controller.getAction("load-scenario"));
 		mb.setToolTipText(null);
 		menu.add(mb);

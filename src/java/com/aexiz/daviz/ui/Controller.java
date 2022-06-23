@@ -310,7 +310,7 @@ class Controller {
 	}
 	
 	boolean isDirty() {
-		return dirty;
+		return !networkModel.isEmpty();
 	}
 	
 	void installFocusListeners() {
@@ -627,6 +627,7 @@ class Controller {
 				JOptionPane.showMessageDialog(control, "Too many initiators selected.", "Unable to start simulation", JOptionPane.ERROR_MESSAGE);				
 				return;
 			}
+			refreshActions();
 			simulationManager.loadSimulation(() -> {
 				// Create a simulation
 				Simulation sim = new Simulation();
