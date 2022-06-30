@@ -52,8 +52,8 @@ public class DefaultCarouselCellRenderer extends JLabel implements CarouselCellR
 			setForeground(list.getForeground());
 		}
 		
-		
-		setText(value == null ? "" : list.counter+" : "+value.toString());
+		//list.counter+" : "+
+		setText(value == null ? "" : value.toString());
 		setEnabled(list.isEnabled());
 		setFont(list.getFont());
 		Border border = null;

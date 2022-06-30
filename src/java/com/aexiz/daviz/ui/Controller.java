@@ -535,6 +535,7 @@ class Controller {
 					Channel[] es = new Channel[edges.length];
 					// Print Edges to file
 					graphWriter.write("--EDGES--");
+				
 					
 					for (int i = 0; i < edges.length; i++) {
 						NodeModel from = edges[i].getFrom(), to = edges[i].getTo();
@@ -604,7 +605,6 @@ class Controller {
 		clearSimulation();
 		refreshActions();
 	}
-	
 	
 	void start() {
 		simulationManager.afterSimulation(() -> {

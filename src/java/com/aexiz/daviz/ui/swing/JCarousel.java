@@ -35,7 +35,7 @@ public class JCarousel extends JComponent {
 		if (def.get(UICLASSID) == null)
 			def.put(UICLASSID, BasicCarouselUI.class.getName());
 	}
-	
+
 	private ListModel<?> listModel;
 	private ListSelectionModel listSelectionModel;
 	private CarouselCellRenderer listCellRenderer;
@@ -91,6 +91,7 @@ public class JCarousel extends JComponent {
 	protected void fireSelectionValueChanged(int firstIndex, int lastIndex, boolean isAdjusting) {
 		Object[] listeners = listenerList.getListenerList();
 		ListSelectionEvent e = null;
+
 		
 		for (int i = listeners.length - 2; i >= 0; i -= 2) {
 			if (listeners[i] == ListSelectionListener.class) {
@@ -108,7 +109,6 @@ public class JCarousel extends JComponent {
 			oldModel.removeListDataListener(listDataListener);
 			listDataListener = null;
 		}
-
 		listModel = model;
 		if (model != null) {
 			listDataListener = createListDataListener();
@@ -148,6 +148,7 @@ public class JCarousel extends JComponent {
 		if (model == null || index >= model.getSize()) {
 			return;
 		}
+		System.out.println("!!");
 		ListSelectionModel selModel = getSelectionModel();
 		if (selModel == null) return;
 		selModel.setSelectionInterval(index, index);

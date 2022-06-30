@@ -1,7 +1,5 @@
 package com.aexiz.daviz.glue;
 
-import java.io.Serializable;
-
 public abstract class Viewpoint extends Locus{
 	
 	public static class Channel extends Viewpoint {
@@ -30,10 +28,17 @@ public abstract class Viewpoint extends Locus{
 			this.weight = weight;
 		}
 		
+		/**
+		 *  Boolean function to check the presence of weight
+		 * @return presence of weight
+		 */
 		public boolean hasWeight() {
 			return weight == weight;
 		}
-		
+		/**
+		 *  Function that directly returns the value of weight as a float
+		 * @return float of Weight
+		 */
 		public float getWeight() {
 			return weight;
 		}
@@ -66,8 +71,13 @@ public abstract class Viewpoint extends Locus{
 	// built-in class called Process, we can not name it so. Next time: prefix
 	// model classes with a letter, like they do in Swing.
 	public static class Node extends Viewpoint {
-		
+		/**
+		 * The position of the node on the X-axis
+		 */
 		public static final String CLIENT_PROPERTY_POSITION_X = "node_pos_x";
+		/**
+		 * The position of the node on the Y-axis
+		 */
 		public static final String CLIENT_PROPERTY_POSITION_Y = "node_pos_y";
 		public static final String CLIENT_PROPERTY_NODEMODEL = "nodemodel";
 		
@@ -84,15 +94,21 @@ public abstract class Viewpoint extends Locus{
 		
 		public Node() {
 		}
-		
+
 		public Node(String label) {
 			setLabel(label);
 		}
-		
+		/**
+		 * Set the label/name of a node
+		 * @param label The desired label/name of the node 
+		 */
 		public void setLabel(String label) {
 			this.label = label;
 		}
-		
+		/**
+		 * Returns a string value for the label/name of the node
+		 * @return The label/name of the node if it is present
+		 */
 		public String getLabel() {
 			return this.label == null ? "" : this.label;
 		}

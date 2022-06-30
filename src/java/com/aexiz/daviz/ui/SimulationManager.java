@@ -100,6 +100,10 @@ class SimulationManager {
 	}
 	
 	// Executes within worker thread
+	
+	
+		
+	
 	private void clearEvents() throws Exception {
 		// Clear transient fields
 		events = new ArrayList<>();
