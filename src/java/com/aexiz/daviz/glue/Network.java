@@ -9,7 +9,11 @@ import com.aexiz.daviz.sim.Set.TSet;
 import frege.prelude.PreludeBase.TTuple2;
 import frege.run8.Lazy;
 import frege.run8.Thunk;
-
+/**
+ * The network class which holds the actual network BEFORE being executed.
+ * @author Hans-Dieter
+ *
+ */
 public class Network{
 	
 	private ArrayList<Viewpoint.Node> processes = new ArrayList<Viewpoint.Node>();
@@ -20,7 +24,12 @@ public class Network{
 	
 	// Haskell dependence
 	transient TSet<TTuple2<Integer, Integer>> hNetwork;
-	
+	/**
+	 * Adds a valid node into the network.
+	 * @param p The node which is going to be added into the network
+	 * @return returns the same node added to the network
+	 * @throws This node is already in use by another network
+	 */
 	public Viewpoint.Node addNode(Viewpoint.Node p) {
 		if (p.network != null) throw new Error("Process already owned by other network");
 		p.network = this;
@@ -28,7 +37,12 @@ public class Network{
 		processes.add(p);
 		return p;
 	}
-	
+	/**
+	 * Adds a valid channel/edge into the network
+	 * @param c A channel/edge inbetween two nodes to be added into the network
+	 * @return Returns the same channel/edge added
+	 * @throws This channel is already in use by another network
+	 */
 	public Viewpoint.Channel addChannel(Viewpoint.Channel c) {
 		if (c.network != null) throw new Error("Channel already owned by other network");
 		c.network = this;
@@ -40,18 +54,29 @@ public class Network{
 			return channels.get(i);
 		}
 	}
-	
+	/**
+	 * Checks if a certain channel/edge is present inside the network
+	 * @param from The starting node of the channel/edge 
+	 * @param to The end node of the channel/edge
+	 * @return A boolean value if the presence of that particular node is present
+	 */
 	public boolean hasChannel(Viewpoint.Node from, Viewpoint.Node to) {
 		for (Viewpoint.Channel c : channels) {
 			if (c.from == from && c.to == to) return true;
 		}
 		return false;
 	}
-	
+	/**
+	 * Returns all the valid node currently inside the network.
+	 * @return returns all the nodes as a node array of all the nodes currently inside the network.
+	 */
 	public Viewpoint.Node[] getNodes() {
 		return processes.toArray(new Viewpoint.Node[processes.size()]);
 	}
-	
+	/**
+	 * Returns all the valid channel/edges currently inside the network.
+	 * @return returns all the channel/edges as a channel array of all the channel/edge currently inside the network.
+	 */
 	public Viewpoint.Channel[] getChannels() {
 		return channels.toArray(new Viewpoint.Channel[channels.size()]);
 	}
@@ -83,7 +108,19 @@ public class Network{
 		}
 		return true;
 	}
-	
+	/**
+	 * Finds and returns a certain node by the ID in the network
+	 * @param hId The integer ID of the node that needs to be found inside the network
+	 * @return The requested node by ID
+	 * @throws No such node found
+	 */
+	public Viewpoint.Node getNodeById(int hId) {
+		for (Viewpoint.Node p : processes) {
+			if (p.hId == hId)
+				return p;
+		}
+		throw new Error("Haskell processes out-of-sync");
+	}
 	private void floodFill(Viewpoint.Node node) {
 		if (node.marked) return;
 		node.marked = true;
@@ -92,7 +129,7 @@ public class Network{
 				floodFill(c.to);
 		}
 	}
-	
+
 	void load() {
 		// 1. Construct unique Integers for processes
 		int last = 1;
@@ -112,12 +149,6 @@ public class Network{
 		}
 	}
 
-	Viewpoint.Node getNodeById(int hId) {
-		for (Viewpoint.Node p : processes) {
-			if (p.hId == hId)
-				return p;
-		}
-		throw new Error("Haskell processes out-of-sync");
-	}
+
 	
 }
