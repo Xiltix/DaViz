@@ -29,14 +29,14 @@ public abstract class Viewpoint extends Locus{
 		}
 		
 		/**
-		 *  Boolean function to check the presence of weight
+		 *  Boolean function to check if the edge has a weight present
 		 * @return presence of weight
 		 */
 		public boolean hasWeight() {
 			return weight == weight;
 		}
 		/**
-		 *  Function that directly returns the value of weight as a float
+		 *  Function that directly returns the value of an edge's weight as a float
 		 * @return float of Weight
 		 */
 		public float getWeight() {

@@ -96,6 +96,7 @@ class Controller {
 		timeline.info = info;
 //		choice.timeline = timeline;
 		
+		
 		selectionModel = new DefaultObjectSelectionModel();
 		networkModel = new DefaultGraphModel();
 		networkModel.setSnapToGrid(true);
