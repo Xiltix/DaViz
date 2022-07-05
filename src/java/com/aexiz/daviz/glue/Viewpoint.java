@@ -1,7 +1,15 @@
 package com.aexiz.daviz.glue;
-
+/**
+ * The viewpoint class whose sub-classes holds Channel (Edges) and Nodes
+ * @author Hans-Dieter
+ *
+ */
 public abstract class Viewpoint extends Locus{
-	
+	/**
+	 * The sub-class of viewpoint, Channel or the edge of the network that connect nodes.
+	 * @author Hans-Dieter
+	 *
+	 */
 	public static class Channel extends Viewpoint {
 		
 		public static final String CLIENT_PROPERTY_EDGEMODEL = "edgemodel";
@@ -19,24 +27,29 @@ public abstract class Viewpoint extends Locus{
 			this.from = from;
 			this.to = to;
 		}
-		
+		/**
+		 * Removes weight currently present in the edge
+		 */
 		public void clearWeight() {
 			this.weight = Float.NaN;
 		}
-		
+		/**
+		 * Set the weight of an channel/edge 
+		 * @param weight Assigns a float value to a channel/edge 
+		 */
 		public void setWeight(float weight) {
 			this.weight = weight;
 		}
 		
 		/**
-		 *  Boolean function to check if the edge has a weight present
+		 *  Boolean function to check if the channel/edge has a weight present
 		 * @return presence of weight
 		 */
 		public boolean hasWeight() {
 			return weight == weight;
 		}
 		/**
-		 *  Function that directly returns the value of an edge's weight as a float
+		 *  Function that directly returns the value of an channel/edge's weight as a float
 		 * @return float of Weight
 		 */
 		public float getWeight() {
@@ -70,6 +83,11 @@ public abstract class Viewpoint extends Locus{
 	// This class should actually be "process", but because Java already has a
 	// built-in class called Process, we can not name it so. Next time: prefix
 	// model classes with a letter, like they do in Swing.
+	/**
+	 * The sub-class of viewpoint, Nodes is the node class to the network.
+	 * @author Hans-Dieter
+	 *
+	 */
 	public static class Node extends Viewpoint {
 		/**
 		 * The position of the node on the X-axis
