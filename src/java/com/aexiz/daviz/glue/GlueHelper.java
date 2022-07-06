@@ -9,7 +9,11 @@ import static com.aexiz.daviz.sim.Set.glueIntNormalS;
 import frege.prelude.PreludeBase.TList;
 import frege.prelude.PreludeBase.TList.DCons;
 import frege.prelude.PreludeBase.TTuple2;
-
+/**
+ * Gluehelper class bridges the Haskell(Frege) and java mainly used in the algorithmn to retrieve nodes and channels/edges
+ * @author Hans-Dieter
+ *
+ */
 public class GlueHelper {
 	
 	private Simulation simulation;
@@ -17,11 +21,20 @@ public class GlueHelper {
 	GlueHelper(Simulation sim) {
 		simulation = sim;
 	}
-	
+	/**
+	 * Retrieves the ID of an inputted node
+	 * @param node The node which needs identification
+	 * @return An integer value of the ID of requested node
+	 */
 	public int getIdByNode(Viewpoint.Node node) {
 		return node.hId;
 	}
-	
+	/**
+	 * Retrieves the node of an inputted ID number
+	 * @param id The ID integer value of a node
+	 * @return The requested node with that ID
+	 * 
+	 */
 	public Viewpoint.Node getNodeById(int id) {
 		for (Viewpoint.Node p : simulation.getNetwork().getNodes()) {
 			if (p.hId == id)
@@ -29,7 +42,12 @@ public class GlueHelper {
 		}
 		throw new Error("Network and Haskell out-of-sync");
 	}
-	
+	/**
+	 * Retrieves a channel/edge with two int integer IDs
+	 * @param from The ID of the start of the channel/edge
+	 * @param to The ID of the end of the channel/edge
+	 * @return The requested channel/edge
+	 */
 	public Viewpoint.Channel getChannelByIds(int from, int to) {
 		for (Viewpoint.Channel c : simulation.getNetwork().getChannels()) {
 			if (c.from.hId == from && c.to.hId == to)
@@ -37,13 +55,21 @@ public class GlueHelper {
 		}
 		throw new Error("Network and Haskell out-of-sync");
 	}
-
+/**
+ * Retrieves a channel/edge with two integer IDs in tuple form
+ * @param tuple A tuple of two integer which are both the ID of the requested channel/edge
+ * @return The requested channel/edge
+ */
 	public Viewpoint.Channel getChannelByTuple(TTuple2<Integer, Integer> tuple) {
 		int from = tuple.mem1.call().intValue();
 		int to = tuple.mem2.call().intValue();
 		return getChannelByIds(from, to);
 	}
-
+/**
+ * Retrieves an ArrayList of channels/edges with two integer IDs in tuple form
+ * @param set A tuple of two integer which are both the ID of the requested channel/edge
+ * @return An ArrayList of the requested channels/edges
+ */
 	public ArrayList<Viewpoint.Channel> forEdgeSet(TSet<TTuple2<Integer, Integer>> set) {
 		ArrayList<Viewpoint.Channel> result = new OrderedSetList<Viewpoint.Channel>();
 		TList<TTuple2<Integer,Integer>> l = glueTuple2IntNormalS(set);
@@ -55,7 +81,11 @@ public class GlueHelper {
 		}
 		return result;
 	}
-
+/**
+ * Retrieves an ArrayList of nodes with integer ID in tuple form
+ * @param set A tuple of two integer which are both the ID of the requested nodes
+ * @return An ArrayList of the requested nodes
+ */
 	public ArrayList<Viewpoint.Node> forVertexSet(TSet<Integer> set) {
 		ArrayList<Viewpoint.Node> result = new OrderedSetList<Viewpoint.Node>();
 		TList<Integer> l = glueIntNormalS(set);

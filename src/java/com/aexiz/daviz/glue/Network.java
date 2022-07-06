@@ -28,7 +28,7 @@ public class Network{
 	 * Adds a valid node into the network.
 	 * @param p The node which is going to be added into the network
 	 * @return returns the same node added to the network
-	 * @throws This node is already in use by another network
+	 * @throws The current node is already in use by another network
 	 */
 	public Viewpoint.Node addNode(Viewpoint.Node p) {
 		if (p.network != null) throw new Error("Process already owned by other network");
@@ -41,7 +41,7 @@ public class Network{
 	 * Adds a valid channel/edge into the network
 	 * @param c A channel/edge inbetween two nodes to be added into the network
 	 * @return Returns the same channel/edge added
-	 * @throws This channel is already in use by another network
+	 * @throws The current channel is already in use by another network
 	 */
 	public Viewpoint.Channel addChannel(Viewpoint.Channel c) {
 		if (c.network != null) throw new Error("Channel already owned by other network");
