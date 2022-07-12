@@ -6,20 +6,14 @@ import java.awt.Frame;
 import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.awt.event.WindowListener;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.HashMap;
@@ -638,7 +632,6 @@ class Controller {
 				NodeModel[] nodes = networkModel.getNode();
 				
 
-				
 				Node[] ps = new Node[nodes.length];
 				for (int i = 0; i < nodes.length; i++) {
 					ps[i] = new Node(nodes[i].getLabel());
