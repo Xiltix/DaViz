@@ -45,7 +45,7 @@ class TimelineFrame extends JDialog {
 	JCarousel carousel;
 
 	public TimelineFrame(Window owner) {
-		super(owner, "Timeline");
+		super(owner, "Executions");
 		setAutoRequestFocus(false);
 		ArrayList<Image> icons = new ArrayList<Image>();
 		icons.add(new ImageIcon(ImageRoot.class.getResource("d16/node.png")).getImage());

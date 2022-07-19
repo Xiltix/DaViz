@@ -34,7 +34,11 @@ import com.aexiz.daviz.ui.swing.JGraph.JEdge;
 import com.aexiz.daviz.ui.swing.JGraph.JNode;
 import com.aexiz.daviz.ui.swing.plaf.GraphUI;
 import com.aexiz.daviz.ui.swing.plaf.basic.BasicTimelineUI.BasicEventUI.Handler;
-
+/**
+ * The foundation of the network topology
+ * @author Dan
+ *
+ */
 public class BasicGraphUI extends GraphUI {
 	
 	BasicNodeUI basicNodeUI = new BasicNodeUI();
@@ -241,6 +245,8 @@ public class BasicGraphUI extends GraphUI {
 				}
 			}
 		}
+		
+		
 		
 		public boolean contains(JComponent c, int x, int y) {
 			JNode node = (JNode) c;

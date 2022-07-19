@@ -60,7 +60,11 @@ public class DefaultGraphModel implements GraphModel, Serializable{
 			}
 		}
 	}
-	
+	/**
+	 * The default node model that is the basis of any node present in the software
+	 * @author Dan
+	 *
+	 */
 	class DefaultNodeModel implements NodeModel, Serializable {
 		
 		
@@ -109,7 +113,7 @@ public class DefaultGraphModel implements GraphModel, Serializable{
 			this.dx = 0.0f;
 			fireStateChanged();
 		}
-		
+
 		public void setDeltaX(float dx) {
 			if (dx != dx) dx = 0.0f;
 			this.dx = dx;
@@ -119,10 +123,11 @@ public class DefaultGraphModel implements GraphModel, Serializable{
 		public float getX() {
 			return x + dx;
 		}
-		
+
 		public float getXWithoutDelta() {
 			return x;
 		}
+
 
 		public void setY(float y) {
 			if (y != y) y = 0.0f;
@@ -130,7 +135,7 @@ public class DefaultGraphModel implements GraphModel, Serializable{
 			this.dy = 0.0f;
 			fireStateChanged();
 		}
-		
+
 		public void setDeltaY(float dy) {
 			if (dy != dy) dy = 0.0f;
 			this.dy = dy;
@@ -140,11 +145,13 @@ public class DefaultGraphModel implements GraphModel, Serializable{
 		public float getY() {
 			return y + dy;
 		}
-		
+
+
 		public float getYWithoutDelta() {
 			return y;
 		}
-		
+
+
 		public boolean isPressed() {
 			return pressed;
 		}

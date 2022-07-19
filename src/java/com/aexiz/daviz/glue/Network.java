@@ -41,7 +41,7 @@ public class Network{
 	 * Adds a valid channel/edge into the network
 	 * @param c A channel/edge inbetween two nodes to be added into the network
 	 * @return Returns the same channel/edge added
-	 * @throws The current channel is already in use by another network
+	 * @throws Current channel is already in use by another network
 	 */
 	public Viewpoint.Channel addChannel(Viewpoint.Channel c) {
 		if (c.network != null) throw new Error("Channel already owned by other network");
