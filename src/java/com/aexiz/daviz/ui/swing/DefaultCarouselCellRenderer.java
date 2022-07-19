@@ -40,7 +40,7 @@ public class DefaultCarouselCellRenderer extends JLabel implements CarouselCellR
 		}
 		loaded = true;
 	}
-	
+
 	public Component getCarouselCellRendererComponent(JCarousel list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 		loadBordersFromListRenderer();
 		setOpaque(true);
@@ -51,9 +51,13 @@ public class DefaultCarouselCellRenderer extends JLabel implements CarouselCellR
 			setBackground(list.getBackground());
 			setForeground(list.getForeground());
 		}
+
+		if(index == 0) {
+			setText(value == null ? "" : list.counter+" : "+value.toString());
+		}else {
+			setText(value == null ? "" : value.toString());		
+		}
 		
-		//list.counter+" : "+
-		setText(value == null ? "" : value.toString());
 		setEnabled(list.isEnabled());
 		setFont(list.getFont());
 		Border border = null;
