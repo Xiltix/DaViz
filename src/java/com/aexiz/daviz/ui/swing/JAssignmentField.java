@@ -93,7 +93,7 @@ public class JAssignmentField extends JPanel {
 		value = null;
 		updateField();
 	}
-	
+
 	public Object[] getValue() {
 		return value;
 	}

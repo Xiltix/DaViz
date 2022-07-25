@@ -8,8 +8,11 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 import javax.swing.plaf.ComponentUI;
 
-// Simple button-ish component, used by the Nodes of JGraph and Events of JTimeline
-// The component still depends on an external UI that renders it.
+/**
+ * Simple button-ish component, used by the Nodes of JGraph and Events of JTimeline,The component still depends on an external UI that renders it.
+ * @author Hans-Dieter
+ *
+ */
 public class JKnob extends JComponent {
 	
 	private static final long serialVersionUID = -2307896553409109184L;

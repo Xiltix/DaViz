@@ -148,7 +148,6 @@ public class JCarousel extends JComponent {
 		if (model == null || index >= model.getSize()) {
 			return;
 		}
-		System.out.println("!!");
 		ListSelectionModel selModel = getSelectionModel();
 		if (selModel == null) return;
 		selModel.setSelectionInterval(index, index);

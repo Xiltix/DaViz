@@ -1,7 +1,11 @@
 package com.aexiz.daviz.ui.swing;
 
 import java.awt.Component;
-
+/**
+ * Public Cell Renderer usefull for the manipulation of the Carousel list that is present within the choice frame that is below the Executions window
+ * @author Hans-Dieter
+ *
+ */
 public interface CarouselCellRenderer {
 	/**
 	 * This method directly renders the components inside the choice frame within the Executions window
